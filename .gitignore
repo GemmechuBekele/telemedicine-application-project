@@ -1,0 +1,45 @@
+# Django secret settings
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+env/
+venv/
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+
+# Database (if using SQLite)
+db.sqlite3
+
+# Migrations (optional to ignore if you only track initial ones)
+**/migrations/*.py
+**/migrations/__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Media files (if any)
+media/
+
+# Staticfiles (collected)
+staticfiles/
+
+# Test coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome to your Dashboard!</h1>
+    <p>Here you can manage your profile, view appointments, and more.</p>
+
+    <!-- ✅ Logout Button using POST -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+{% endblock %}

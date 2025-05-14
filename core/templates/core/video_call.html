@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <h2>Video Call</h2>
+  
+   <div>
+      <h3>This will be your video call screen.</h3>
+      <video id="localVideo" autoplay></video>
+      <video id="remoteVideo" autoplay></video>
+   </div>
+
+<script>
+    const roomName = "your_room_name";  // Set a unique room name for each call
+    const socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/video_call/' + roomName + '/'
+    );
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log(data.message);
+    };
+
+    // WebRTC setup for video
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+
+    let localStream;
+    let peerConnection;
+    const servers = null; // Use STUN/TURN servers if necessary
+
+    // Start the video call
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(stream => {
+            localStream = stream;
+            localVideo.srcObject = stream;
+
+            // Create WebRTC connection
+            peerConnection = new RTCPeerConnection(servers);
+
+            // Add local stream to peer connection
+            localStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, localStream);
+            });
+
+            // Handle ICE candidates
+            peerConnection.onicecandidate = function(event) {
+                if (event.candidate) {
+                    socket.send(JSON.stringify({
+                        'message': {
+                            'type': 'candidate',
+                            'candidate': event.candidate
+                        }
+                    }));
+                }
+            };
+
+            // Receive remote stream
+            peerConnection.ontrack = function(event) {
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            // Send offer or answer message when needed
+            socket.send(JSON.stringify({
+                'message': {
+                    'type': 'offer',
+                    'sdp': 'your_sdp_data_here'
+                }
+            }));
+
+        })
+        .catch(err => console.error('Error accessing media devices.', err));
+</script>
+
+  <p>This will be your video call screen.</p>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home - Telemedicine{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4">Welcome to the Telemedicine App!</h1>
+    <p class="lead">Connect with doctors and manage your health online.</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <a href="{% url 'doctor_signup' %}" class="btn btn-outline-primary w-100 mb-2">Doctor Signup</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'patient_signup' %}" class="btn btn-outline-secondary w-100 mb-2">Patient Signup</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-success w-100 mb-2">Dashboard</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'video_call' %}" class="btn btn-outline-dark w-100 mb-2">Join Video Call</a>
+    </div>
+</div>
+
+{% if doctors %}
+    <h2 class="mb-3">Available Doctors</h2>
+    <div class="row">
+        {% for doctor in doctors %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Dr. {{ doctor.user.username }}</h5>
+                        <p class="card-text">Specialty: {{ doctor.specialty|default:"General" }}</p>
+                        <a href="{% url 'book_appointment' doctor.id %}" class="btn btn-primary">Book Appointment</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">No doctors available at the moment.</p>
+{% endif %}
+{% endblock %}
+
+

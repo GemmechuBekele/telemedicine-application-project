@@ -1,0 +1,39 @@
+{% load static %}
+{% extends "core/base.html" %}
+
+{% block content %}
+<h2>Book Appointment</h2>
+<form id="appointmentForm" method="POST">
+    {% csrf_token %}
+    <label for="appointmentTime">Select Date and Time:</label>
+    <input type="datetime-local" id="appointmentTime" name="time" class="form-control" required>
+    <br>
+    <button type="submit" class="btn btn-primary">Book</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#appointmentForm").submit(function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/api/book_appointment/',
+                type: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                data: {
+                    time: $("#appointmentTime").val()
+                },
+                success: function(response) {
+                    alert("Appointment booked successfully!");
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
