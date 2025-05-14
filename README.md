@@ -27,7 +27,7 @@ telemedicine-application-project/
 
 ├── static/ # JavaScript, CSS files
 
-├── db.sqlite3 # MYSQL database 
+├── db.mysql # MYSQL database 
 
 ├── manage.py # Django project manager
 
