@@ -18,12 +18,19 @@ This is a Django-based **Telemedicine Web Application** that allows **patients**
 ## 📁 Project Structure
 
 telemedicine-application-project/
+
 ├── core/ # Main app containing views, models, forms
+
 ├── telemed_project/ # Django project settings
+
 ├── templates/ # HTML Templates
+
 ├── static/ # JavaScript, CSS files
+
 ├── db.sqlite3 # MYSQL database 
+
 ├── manage.py # Django project manager
+
 └── README.md # This file
 
 
